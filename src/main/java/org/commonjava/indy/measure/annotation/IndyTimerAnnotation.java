@@ -1,4 +1,4 @@
-package org.commonjava.indy.measure;
+package org.commonjava.indy.measure.annotation;
 
 import javax.interceptor.InterceptorBinding;
 import java.lang.annotation.ElementType;

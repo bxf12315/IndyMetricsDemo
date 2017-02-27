@@ -1,17 +1,13 @@
 package org.commonjava.indy.measure;
 
-import com.codahale.metrics.ConsoleReporter;
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.ScheduledReporter;
-import com.codahale.metrics.Timer;
-import org.commonjava.indy.metrics.jaxrs.interceptor.TimerInterceptor;
+import com.codahale.metrics.*;
+import org.commonjava.indy.measure.annotation.IndyTimers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
-
+import org.commonjava.indy.measure.annotation.IndyMeter;
 import static com.codahale.metrics.MetricRegistry.name;
 
 /**
@@ -20,6 +16,7 @@ import static com.codahale.metrics.MetricRegistry.name;
 public class IndyMetricsUtil {
     private static final Logger logger = LoggerFactory.getLogger(IndyMetricsUtil.class);
     private final static HashMap<String,Timer> timerInstances = new HashMap<String, Timer>();
+    private final static HashMap<String,Meter> meterInstances = new HashMap<String, Meter>();
     private final static ScheduledReporter reporter = null;
 
     public synchronized static ScheduledReporter getReporter(MetricRegistry metrics){
@@ -29,11 +26,11 @@ public class IndyMetricsUtil {
         }
         ConsoleReporter reporter = ConsoleReporter.forRegistry(metrics).build();
         logger.info("call in IndyMetricsUtil.getReporter and reporter has been start");
-        reporter.start(3, TimeUnit.SECONDS);
+        reporter.start(30, TimeUnit.SECONDS);
         return  reporter;
     }
 
-    public synchronized static Timer getTimer(IndyTimers indyTimers,MetricRegistry metrics){
+    public synchronized static Timer getTimer(IndyTimers indyTimers, MetricRegistry metrics){
         logger.info("call in IndyMetricsUtil.getTimer");
         Timer t = timerInstances.get(indyTimers.c().getName()+indyTimers.name());
         if(t==null){
@@ -42,6 +39,18 @@ public class IndyMetricsUtil {
             return t;
         }else{
             return t;
+        }
+
+    }
+    public synchronized static Meter getMeter(IndyMeter indyMeter, MetricRegistry metrics){
+        logger.info("call in IndyMetricsUtil.getMeter");
+        Meter m  = meterInstances.get(indyMeter.c().getName()+indyMeter.name());
+        if (m==null){
+            m =  metrics.meter(name(indyMeter.c(),indyMeter.name()));
+            meterInstances.put(indyMeter.c().getName()+indyMeter.name(),m);
+            return m;
+        }else {
+            return m;
         }
     }
 }

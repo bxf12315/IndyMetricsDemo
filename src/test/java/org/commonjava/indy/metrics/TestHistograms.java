@@ -21,7 +21,6 @@ public class TestHistograms {
 
     private static final Timer requests = metrics.timer(name(TestTimers.class, "request"));
 
-//    private static Timer requests = new Timer(new SlidingTimeWindowReservoir(1L, TimeUnit.MINUTES));
     /**
      */
     private static final Histogram randomNums = metrics.histogram(name(TestHistograms.class, "random"));
