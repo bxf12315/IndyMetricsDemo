@@ -1,7 +1,6 @@
 package org.commonjava.indy.metrics.jaxrs.interceptor;
 
 import com.codahale.metrics.Meter;
-import com.codahale.metrics.MetricRegistry;
 import org.commonjava.indy.measure.IndyMetricsUtil;
 import org.commonjava.indy.measure.annotation.IndyMeterAnnotation;
 import org.slf4j.Logger;
@@ -27,14 +26,9 @@ public class MeterInterceptor {
     @AroundInvoke
     public Object operation(InvocationContext context) throws Exception {
         logger.info("call in MeterInterceptor.operation");
-        Meter requests = util.getMeter(context.getMethod().getAnnotation(IndyMeter.class));
-        requests.mark();
-        Object o = null;
-        try {
-            o = context.proceed();
-        }finally {
+            Meter requests = util.getMeter(context.getMethod().getAnnotation(IndyMeter.class));
+            Object o = context.proceed();
             requests.mark();
-        }
-        return o;
+            return o;
     }
 }

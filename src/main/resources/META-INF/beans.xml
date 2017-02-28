@@ -4,5 +4,6 @@
     <interceptors>
         <class>org.commonjava.indy.metrics.jaxrs.interceptor.TimerInterceptor</class>
         <class>org.commonjava.indy.metrics.jaxrs.interceptor.MeterInterceptor</class>
+        <class>org.commonjava.indy.metrics.jaxrs.interceptor.ExceptionInterceptor</class>
     </interceptors>
 </beans>

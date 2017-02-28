@@ -1,5 +1,6 @@
 package org.commonjava.indy.metrics.jaxrs.interceptor;
 
+import com.codahale.metrics.Meter;
 import com.codahale.metrics.MetricRegistry;
 import org.commonjava.indy.measure.annotation.IndyTimerAnnotation;
 import org.commonjava.indy.measure.IndyMetricsUtil;
@@ -19,6 +20,7 @@ import com.codahale.metrics.Timer;
  */
 @Interceptor
 @IndyTimerAnnotation
+
 public class TimerInterceptor {
     @Inject
     IndyMetricsUtil util;
@@ -28,14 +30,10 @@ public class TimerInterceptor {
     @AroundInvoke
     public Object operation(InvocationContext context) throws Exception {
         logger.info("call in TimerInterceptor.operation");
-        Timer.Context contextTime = util.getTimer(context.getMethod().getAnnotation(IndyTimers.class)).time();
-        try {
-            Object obj = context.proceed();
-            return obj;
-        }finally {
-            contextTime.stop();
-        }
-
+                Timer.Context contextTime = util.getTimer(context.getMethod().getAnnotation(IndyTimers.class)).time();
+                Object obj = context.proceed();
+                contextTime.stop();
+                return obj;
     }
 
 }
