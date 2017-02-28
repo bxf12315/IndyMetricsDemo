@@ -21,15 +21,14 @@ import com.codahale.metrics.Timer;
 @IndyTimerAnnotation
 public class TimerInterceptor {
     @Inject
-    MetricRegistry metrics;
+    IndyMetricsUtil util;
 
     private static final Logger logger = LoggerFactory.getLogger(TimerInterceptor.class);
 
     @AroundInvoke
     public Object operation(InvocationContext context) throws Exception {
         logger.info("call in TimerInterceptor.operation");
-        Timer.Context contextTime = IndyMetricsUtil.getTimer(context.getMethod().getAnnotation(IndyTimers.class),metrics).time();
-        IndyMetricsUtil.getReporter(metrics);
+        Timer.Context contextTime = util.getTimer(context.getMethod().getAnnotation(IndyTimers.class)).time();
         try {
             Object obj = context.proceed();
             return obj;

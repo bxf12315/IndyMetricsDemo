@@ -22,13 +22,13 @@ public class MeterInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(MeterInterceptor.class);
 
     @Inject
-    MetricRegistry metrics;
+    IndyMetricsUtil util;
 
     @AroundInvoke
     public Object operation(InvocationContext context) throws Exception {
         logger.info("call in MeterInterceptor.operation");
-        Meter requests = IndyMetricsUtil.getMeter(context.getMethod().getAnnotation(IndyMeter.class),metrics);
-        IndyMetricsUtil.getReporter(metrics);
+        Meter requests = util.getMeter(context.getMethod().getAnnotation(IndyMeter.class));
+        requests.mark();
         Object o = null;
         try {
             o = context.proceed();
