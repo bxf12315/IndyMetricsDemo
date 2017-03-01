@@ -25,7 +25,7 @@ public class MeterInterceptor {
 
     @AroundInvoke
     public Object operation(InvocationContext context) throws Exception {
-        logger.info("call in MeterInterceptor.operation");
+        logger.info("call in MeterHandler.operation");
             Meter requests = util.getMeter(context.getMethod().getAnnotation(IndyMeter.class));
             Object o = context.proceed();
             requests.mark();
