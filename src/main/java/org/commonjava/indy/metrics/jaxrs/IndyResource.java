@@ -20,10 +20,8 @@ public class IndyResource {
 
     @GET
     @Path("/timer/{isException :[a-zA-Z]+}")
-    @IndyTimerAnnotation
-    @IndyTimers(c=IndyResource.class,name="testTimerRequest")
-    @IndyExceptionMeterAnnotation
-    @IndyExceptionMeter(c=IndyResource.class,name="testTimerRequest.hasException")
+    @IndyMetrics(type = IndyMetrics.MetricsType.TIMER,c=IndyResource.class,name="testTimerRequest")
+    @IndyException(type = IndyException.IndyExceptionType.METERHANDLER,c=IndyResource.class,name="testTimerRequest has exception")
     public Response getTimer(@PathParam("isException") String isException) throws Exception{
         if(isException.equals("true")){
             throw new Exception("getTimer has a exception");
@@ -36,11 +34,9 @@ public class IndyResource {
 
     @GET
     @Path("/meter/{isException :[a-zA-Z]+}")
-    @IndyMeter(c=IndyResource.class,name="testMeterRequest")
-    @IndyMeterAnnotation
-    @IndyExceptionMeterAnnotation
-    @IndyExceptionMeter(c=IndyResource.class,name="testMeterRequest.hasException")
-    public  Response getMeter(@PathParam("isException") String isException) throws Exception{
+    @IndyMetrics(type = IndyMetrics.MetricsType.METER,c=IndyResource.class,name="testMeterRequest")
+    @IndyException(type = IndyException.IndyExceptionType.METERHANDLER,c=IndyResource.class,name="testMeterRequest has exception")
+    public Response getMeter(@PathParam("isException") String isException) throws Exception{
         logger.info("call in method : getMeter");
         if(isException.equals("true")){
             throw new Exception("getMeter has a exception");

@@ -1,14 +1,6 @@
 package org.commonjava.indy.metrics.proxy;
 
 
-import com.codahale.metrics.ConsoleReporter;
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.ScheduledReporter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.TimeUnit;
-
 /**
  * Created by xiabai on 2/28/17.
  */

@@ -3,9 +3,8 @@ package org.commonjava.indy.metrics.proxy.invocationhandler;
 import com.codahale.metrics.ConsoleReporter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
-import org.commonjava.indy.measure.annotation.IndyExceptionMeter;
-import org.commonjava.indy.measure.annotation.IndyMeter;
-import org.commonjava.indy.measure.annotation.IndyTimers;
+import org.commonjava.indy.measure.annotation.IndyException;
+import org.commonjava.indy.measure.annotation.IndyMetrics;
 import org.commonjava.indy.metrics.proxy.invocationhandler.impl.ExceptionHandler;
 import org.commonjava.indy.metrics.proxy.invocationhandler.impl.MeterHandler;
 import org.commonjava.indy.metrics.proxy.invocationhandler.impl.TimerHandler;
@@ -50,18 +49,22 @@ public class IndyMeticsInvocationHandler<T> implements InvocationHandler{
 
         Object object = null;
         try {
-            if (method.getAnnotation(IndyTimers.class) instanceof IndyTimers) {
-                TimerHandler handler = new TimerHandler();
-                object = handler.operation(metricRegistry, proxyInstance, method, objects, method.getAnnotation(IndyTimers.class));
+            if (method.getAnnotation(IndyMetrics.class) instanceof IndyMetrics) {
+                IndyMetrics indyMetrics = (IndyMetrics) method.getAnnotation(IndyMetrics.class);
+                if (indyMetrics.type().equals(IndyMetrics.MetricsType.TIMER)) {
+                    TimerHandler handler = new TimerHandler();
+                    object = handler.operation(metricRegistry, proxyInstance, method, objects, method.getAnnotation(IndyMetrics.class));
+                }
+                if( indyMetrics.type().equals(IndyMetrics.MetricsType.TIMER)) {
+                    MeterHandler handler = new MeterHandler();
+                    object = handler.operation(metricRegistry, proxyInstance, method, objects, method.getAnnotation(IndyMetrics.class));
+                }
             }
-            if (method.getAnnotation(IndyMeter.class) instanceof IndyMeter) {
-                MeterHandler handler = new MeterHandler();
-                object = handler.operation(metricRegistry, proxyInstance, method, objects, method.getAnnotation(IndyMeter.class));
-            }
-        }catch(Throwable throwable) {
-            if (method.getAnnotation(IndyExceptionMeter.class) instanceof IndyExceptionMeter) {
+        }
+        catch(Throwable throwable) {
+            if (method.getAnnotation(IndyException.class) instanceof IndyException) {
                 ExceptionHandler handler = new ExceptionHandler();
-                handler.operation(metricRegistry,method.getAnnotation(IndyExceptionMeter.class));
+                handler.operation(metricRegistry,method.getAnnotation(IndyException.class));
             }
 
             throw throwable;

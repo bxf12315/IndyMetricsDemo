@@ -1,7 +1,5 @@
 package org.commonjava.indy.metrics.proxy;
 
-import org.commonjava.indy.measure.annotation.IndyMeter;
-
 /**
  * Created by xiabai on 3/1/17.
  */

@@ -2,7 +2,6 @@ package org.commonjava.indy.measure.annotation;
 
 import javax.enterprise.util.Nonbinding;
 import javax.interceptor.InterceptorBinding;
-import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -16,13 +15,10 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @InterceptorBinding
 @Target({METHOD, TYPE})
 @Retention(RUNTIME)
-public @interface IndyMetrics {
-    public enum MetricsType {
-        TIMER,
-        METER,
-        GAUGES,
-        COUNTER,
-        HISTOGRAMS
+public @interface IndyException {
+    public enum IndyExceptionType {
+        METERHANDLER,
+        WEAPPER
     }
 
     @Nonbinding
@@ -31,5 +27,6 @@ public @interface IndyMetrics {
     @Nonbinding
     String name() default "indy";
 
-    MetricsType type() default MetricsType.TIMER;
+
+    IndyException.IndyExceptionType type() default IndyException.IndyExceptionType.METERHANDLER;
 }

@@ -2,8 +2,7 @@ package org.commonjava.indy.metrics.jaxrs.interceptor;
 
 import com.codahale.metrics.Meter;
 import org.commonjava.indy.measure.IndyMetricsUtil;
-import org.commonjava.indy.measure.annotation.IndyExceptionMeter;
-import org.commonjava.indy.measure.annotation.IndyExceptionMeterAnnotation;
+import org.commonjava.indy.measure.annotation.IndyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +14,7 @@ import javax.interceptor.InvocationContext;
 /**
  * Created by xiabai on 2/28/17.
  */
-@IndyExceptionMeterAnnotation
+@IndyException(type = IndyException.IndyExceptionType.METERHANDLER)
 @Interceptor
 public class ExceptionInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(ExceptionInterceptor.class);
@@ -30,7 +29,7 @@ public class ExceptionInterceptor {
         try{
             o = context.proceed();
         }catch (Exception e){
-            Meter meter = util.getExceptionMeter(context.getMethod().getAnnotation(IndyExceptionMeter.class));
+            Meter meter = util.getExceptionMeter(context.getMethod().getAnnotation(IndyException.class));
             meter.mark();
             throw e;
         }

@@ -3,18 +3,20 @@ package org.commonjava.indy.metrics.proxy;
 /**
  * Created by xiabai on 3/1/17.
  */
+
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.ScheduledReporter;
-import org.commonjava.indy.measure.annotation.IndyTimers;
-import org.commonjava.indy.measure.annotation.IndyExceptionMeter;
+import org.commonjava.indy.measure.annotation.IndyException;
+import org.commonjava.indy.measure.annotation.IndyMetrics;
+import org.commonjava.indy.metrics.jaxrs.IndyResource;
 import org.commonjava.indy.metrics.proxy.invocationhandler.IndyMeticsInvocationHandler;
 
 import java.lang.reflect.Proxy;
 
 public interface TimerClass {
 
-    @IndyTimers(c= TimerClass.class,name="test timer for handler")
-    @IndyExceptionMeter(c= TimerClassImpl.class,name="test timer for handler.has a exception" )
+    @IndyMetrics(type = IndyMetrics.MetricsType.TIMER,c=IndyResource.class,name="testTimerRequest")
+    @IndyException(type = IndyException.IndyExceptionType.METERHANDLER,c=IndyResource.class,name="testTimerRequest has exception")
     public void getTimer(boolean isException) throws Exception;
 
     public static TimerClass getTimerClass(MetricRegistry metricRegistry, ScheduledReporter reporter){
