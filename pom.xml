@@ -10,13 +10,12 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.bxf12315</groupId>
 	<artifactId>metricsdemo</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>metricsdemo Webapp</name>
 	<url>http://maven.apache.org</url>
 
@@ -26,6 +25,12 @@
         <jaxrs.version>3.0.9</jaxrs.version>
 		<cdi.version>1.2</cdi.version>
 	</properties>
+  <scm>
+    <developerConnection>scm:git:git@github.com:bxf12315/IndyMetricsDemo.git</developerConnection>
+    <connection>scm:git:https://github.com/bxf12315/IndyMetricsDemor</connection>
+    <url>https://github.com/bxf12315/IndyMetricsDemo</url>
+    <tag>com.github.bxf12315</tag>
+  </scm>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -99,6 +104,17 @@
 		</plugins>
 	</build>
 
-
+<distributionManagement>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>
