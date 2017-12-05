@@ -40,9 +40,6 @@
 			<scope>test</scope>
 	     
 	
-	
-	
-	
 		</dependency>
 		<dependency>
 			<groupId>io.dropwizard.metrics</groupId>
