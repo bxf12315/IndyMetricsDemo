@@ -32,7 +32,7 @@
     <tag>com.github.bxf12315</tag>
   </scm>
 	<dependencies>
-		<dependency>
+		<dependency>  
 
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
